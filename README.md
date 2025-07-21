@@ -1,1 +1,75 @@
-# -ONOMINER
+DIY Guide: onocoy Miner with ESP32 and UM980 GPS Module 
+
+
+Deployment Requirements 
+Power supply: USB-C adapter and cable, permanently connected 
+Internet connection: online 24/7 
+Antenna placement: Unobstructed 360° view of the sky 
+Mounting: Stable and vibration-free antenna installation
+ 
+Requirements: Basic soldering skills – the GPS module is sensitive! 
+
+Required Hardware:
+ESP32 WROOM (with external WiFi antenna) 
+UM980 GPS module 
+4010 fan 
+USB-C socket 
+
+Required Tools & Materials 
+ESD-safe soldering station (fine tip) 
+Side cutters 
+Wire stripper 
+Wire in 4 colors (e.g. black, red, yellow, blue) 
+Double-sided 3M tape 
+M3 thread cutter (optional, if the lid is to be screwed), 2 x M3 screws and screwdriver 
+
+
+.. Step 1: Prepare Firmware 
+Before connecting the components, flash the ESP32 with the correct firmware. 
+You will need: 
+- Firmware file: ESP32 NTRIP duo.bin ( THANKS to: https://github.com/incarvr6/esp32-ntrip-DUO )
+ 
+Using ESPHome Web Flasher: 
+1. Open: https://web.esphome.io/ 
+2. Connect the ESP32 to your PC via USB (hold the 'Boot' button while plugging in) 
+3. Click 'Connect' and choose the COM port (if no COM port appears, install a driver. A pop-up will provide links. Alternatively, go to the 'ESP32' folder, unpack the driver archive, and right-click on silabser.inf . 'Install'.) 
+4. In the popup: Select the .bin file 
+5. Click 'Install' 
+ 
+After flashing: Disconnect and reconnect the USB cable. After about 20 seconds, a new WiFi network named 'ESP32-...' should appear. 
+.. Step 2: Configure the UM980 GPS Module 
+1. Install the driver from the 'GPS MODULE / Driver' folder 
+2. Connect the UM980 to your Windows PC via USB 
+3. Copy the 'GPS MODULE' folder to your desktop 
+4. Open Device Manager . Note the COM port (CH340) 
+5. Open terminal in the folder (Right-click . 'Open in Terminal') 
+6. Run the flashing command: 
+ 
+.\nmeaConf.exe COM5 UM980_RTCM3_OUT.txt 
+ 
+(Replace COM5 with your actual COM port, e.g., COM3, COM4, etc.) 
+Done! 
+
+
+... Step 3: Prepare the Enclosure (optional, if lid is not screwed) 
+Carefully cut threads into both enclosure holes using the M3 thread cutter. 
+
+
+... Step 4: Assembly & Wiring 
+1. Attach double-sided tape to ESP32, fan, and UM980 
+2. Cut 4 wires (each in a different color) to 6 cm, strip both ends, twist, and lightly tin them 
+3. Wiring according to the following diagram: 
+4010 Fan: 
+ESP32 3V  . Fan + (red) 
+ESP32 GND . Fan – (black) 
+UM980 GPS Module: 
+ESP32 TX  . UM980 RX (yellow) 
+ESP32 RX  . UM980 TX (blue) 
+ESP32 5V  . UM980 VCC (red) 
+ESP32 GND . UM980 GND (black) 
+. Step 5: Power-up 
+1. Close the enclosure 
+2. Connect the antennas 
+3. Plug in power . The device will start automatically 
+4. Now you can begin with the software setup. Follow the instructions at device setup.pdf. 
+
